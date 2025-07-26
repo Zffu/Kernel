@@ -1,6 +1,7 @@
 rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
 
-KERNEL_SOURCES = $(call rwildcard,src,*.c)
+KERNEL_SOURCES = $(call rwildcard,kernel,*.c)
+HEADERS = $(call rwildcard,includes,*.h)
 
 OBJ = ${KERNEL_SOURCES:.c=.o}
 
@@ -16,13 +17,13 @@ os-image.bin: bootsector/bootsector.bin kernel.bin
 	copy /b bootsector\bootsector.bin + kernel.bin os-image.bin
 
 kernel.bin: bootsector/kernel.o ${OBJ}
-	x86_64-elf-ld -o $@ -Ttext 0x1000 $^ --oformat binary
+	i686-elf-ld -o $@ -Ttext 0x1000 $^ --oformat binary
 
 run: os-image.bin
-	qemu-system-x86_64 -fda os-image.bin
+	qemu-system-i386 -fda os-image.bin
 
-%.o: %.c ${HEADERS}:
-	x86_64-elf-gcc ${FLAGS} -ffreestanding -c $< -o $@
+%.o: %.c ${HEADERS}
+	i686-elf-gcc ${FLAGS} -ffreestanding -c $< -o $@
 
 %.o: %.asm
 	nasm $< -f elf -p $@

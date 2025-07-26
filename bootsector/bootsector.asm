@@ -6,11 +6,12 @@ KERNEL_OFFSET equ 0x1000 ; The same one we used when linking the kernel
     mov sp, bp
 
     call load_kernel ; read the kernel from disk
-    call switch_to_pm ; disable interrupts, load GDT,  etc. Finally jumps to 'BEGIN_PM'
+    call switch_to_32 ; disable interrupts, load GDT,  etc. Finally jumps to 'BEGIN_PM'
     jmp $ ; Never executed
 
 %include "bootsector/gdt.asm"
-%include "bootsector/32bit/switch.asm"
+%include "bootsector/32bits.asm"
+%include "bootsector/disk.asm"
 
 [bits 16]
 load_kernel:

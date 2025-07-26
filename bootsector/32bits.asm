@@ -5,7 +5,7 @@ switch_to_32:
 	mov eax, cr0
 	or eax, 0x1
 	mov cr0, eax
-	jmp CODE_SEG:init_pm
+	jmp CODE_SEG:init_32
 
 [bits 32]
 init_32:
