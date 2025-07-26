@@ -26,5 +26,8 @@ disk_err:
 	jmp disk_loop
 
 ; TODO: Add logging error here
-sectors_err:
+sector_err:
 	ret
+
+disk_loop:
+	jmp $
