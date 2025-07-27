@@ -1,6 +1,8 @@
 #include <driver.h>
 #include <screen.h>
 
+#include <mem.h>
+
 int get_cursor_offset();
 void set_cursor_offset(int offset);
 int print_char(char c, int col, int row, char attr);
@@ -78,7 +80,7 @@ int print_char(char c, int col, int row, char attr) {
     if (offset >= MAX_ROW * MAX_COLS * 2) {
         int i;
         for (i = 1; i < MAX_ROW; i++) 
-            memory_copy(get_offset(0, i) + VIDEO_ADDR,
+            memcpy(get_offset(0, i) + VIDEO_ADDR,
                         get_offset(0, i-1) + VIDEO_ADDR,
                         MAX_COLS * 2);
 
