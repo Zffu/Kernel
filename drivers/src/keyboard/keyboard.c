@@ -47,5 +47,16 @@ static void keyboard_callback(registers_t regs) {
 }
 
 void keyboard_init() {
-   register_interrupt_handler(IRQ1, keyboard_callback); 
+    while(port_get_byte(0x64) & 0x2);
+
+    port_put_byte(0x64, 0xAE);
+
+    register_interrupt_handler(IRQ1, keyboard_callback); 
+
+    screenprint("[INFO] Awaiting keyboard");
+
+    while((port_get_byte(0x64) & 2) != 0);
+    port_put_byte(0x60, 0xF4);
+
+    screenprint("[INFO] Keyboard ready!\n");
 }
