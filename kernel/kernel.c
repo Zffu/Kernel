@@ -1,5 +1,8 @@
 #include <screenprint.h>
 
 void main() {
-	screenprint("Hello Kernel! This is me Zffu");
+	for(int i = 0; i < 25; ++i) {
+		screenprint((char) 56 + i);
+		screenprint("\n");
+	}
 }

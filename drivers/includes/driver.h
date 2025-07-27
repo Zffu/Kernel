@@ -4,10 +4,7 @@
 
 #pragma once
 
-typedef unsigned char byte_t;
-typedef unsigned short word_t;
-
-typedef unsigned short port;
+#include <types.h>
 
 /**
  * @name port_get_byte
