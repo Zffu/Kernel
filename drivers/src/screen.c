@@ -36,6 +36,24 @@ void screenprint(char* text) {
 	screenprint_at(text, -1, -1);
 }
 
+void screenlog(char* text) {
+    screenprint("[LOG] ");
+    screenprint(text);
+    screenprint("\n");
+}
+
+void screendebug(char* text) {
+    screenprint("[DEBUG] ");
+    screenprint(text);
+    screenprint("\n");
+}
+
+void screenwarn(char* text) {
+    screenprint("[WARN] ");
+    screenprint(text);
+    screenprint("\n");
+}
+
 void clearscreen() {
 	int screen_sz = MAX_COLS * MAX_ROW;
 	int i;

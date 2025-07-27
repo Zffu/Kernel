@@ -20,7 +20,8 @@ kernel.bin: bootsector/kernel.o ${OBJ}
 	i686-elf-ld -o $@ -Ttext 0x1000 $^ --oformat binary
 
 run: os-image.bin
-	qemu-system-i386 -fda os-image.bin -device usb-kbd -device usb-mouse -usb
+	qemu-system-i386 -fda os-image.bin
+
 
 %.o: %.c ${HEADERS}
 	i686-elf-gcc ${FLAGS} -ffreestanding -c $< -o $@

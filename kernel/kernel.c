@@ -9,6 +9,8 @@ void main() {
 
 	screenprint("[INFO] Loading IRQs\n\n");
 	irq_install();
+
+	__asm__ __volatile__("int $0x21");
 }
 
 void user_input(char* i) {
