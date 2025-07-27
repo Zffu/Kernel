@@ -1,7 +1,7 @@
 rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
 
-KERNEL_SOURCES = $(call rwildcard,kernel,*.c)
-HEADERS = $(call rwildcard,includes,*.h)
+KERNEL_SOURCES = $(call rwildcard,kernel,*.c) $(call rwildcard,drivers,*.c)
+HEADERS = $(call rwildcard,includes,*.h) $(call rwildcard,drivers,*.h)
 
 OBJ = ${KERNEL_SOURCES:.c=.o}
 
