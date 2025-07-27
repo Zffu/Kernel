@@ -7,6 +7,10 @@ void main() {
 	screenprint("[INFO] Installing the CPU ISR\n");
 	isr_install();
 
-	screenprint("[INFO] Loading Keyboard handler\n\n");
-	keyboard_init();
+	screenprint("[INFO] Loading IRQs\n\n");
+	irq_install();
+}
+
+void user_input(char* i) {
+	
 }

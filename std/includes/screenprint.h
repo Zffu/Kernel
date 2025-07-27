@@ -23,3 +23,5 @@ void screenprint_at(char* text, int col, int row);
 void screenprint(char* text);
 
 void clearscreen();
+
+void screenbackspace();

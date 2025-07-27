@@ -49,6 +49,13 @@ void clearscreen() {
 	set_cursor_offset(get_offset(0, 0));
 }
 
+void screenbackspace() {
+    int offset = get_cursor_offset()-2;
+    int row = get_offset_row(offset);
+    int col = get_offset_col(offset);
+    print_char(0x08, col, row, WHITE_ON_BLACK);
+}
+
 /**
  * Private Kernel defs
  */

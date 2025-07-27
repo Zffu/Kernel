@@ -1,6 +1,10 @@
 #include <idt.h>
 #include <types.h>
 
+idt_gate_t idt[IDT_ENTRIES];
+idt_reg_t idt_reg;
+
+
 void set_idt_gate(int n, u32 handler) {
 	idt[n].low_off = LOW16(handler);
 	idt[n].sel = KERNEL_CS;
