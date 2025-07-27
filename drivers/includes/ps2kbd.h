@@ -103,3 +103,12 @@ void ps2kbd_set_scanmode_key(ps2kbd_scanmode_t mode, unsigned char key);
  * @param delays_before_key_repeat the delays in miliseconds before the key repeat
  */
 void ps2kbd_set_typematic_rate_delay(int repeat_rate, int delays_before_key_repeat);
+
+/**
+ * @name get_current_scancode_set
+ * 
+ * Gets the current scan code set.
+ * 
+ * @return the scan code set, either 1, 2 or 3
+ */
+int get_current_scancode_set();
