@@ -1,4 +1,5 @@
+#include <screenprint.h>
+
 void main() {
-	char* video_memory = (char*) 0xb8000;
-	*video_memory = 'E';
+	screenprint("Hello Kernel! This is me Zffu");
 }

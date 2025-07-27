@@ -5,7 +5,7 @@ HEADERS = $(call rwildcard,includes,*.h) $(call rwildcard,drivers,*.h) $(call rw
 
 OBJ = ${KERNEL_SOURCES:.c=.o}
 
-FLAGS = -g -Iinclude
+FLAGS = -g -Iinclude -Istd/includes -Idrivers/includes
 
 all: os-image.bin
 image: os-image.bin
