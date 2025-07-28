@@ -6,6 +6,9 @@
 
 #include <stdbool.h>
 
+#define PS2KBD_DATAPORT 0x60
+#define PS2KBD_COMMANDPORT 0x64
+
 /**
  * LEDs bits
  */
@@ -25,6 +28,8 @@ typedef enum ps2kbd_scanmode_t {
 	PRESS,
 	ALL
 } ps2kbd_scanmode_t;
+
+bool ps2kbd_ack();
 
 /**
  * @name ps2kbd_set_led_state 
@@ -76,25 +81,6 @@ void ps2kbd_disable_scanning();
 void ps2kbd_set_default_params();
 
 /**
- * @name ps2kbd_set_scanmode_global
- * 
- * Sets the scanning mode globally.
- * 
- * @param mode the given mode
- */
-void ps2kbd_set_scanmode_global(ps2kbd_scanmode_t mode);
-
-/**
- * @name ps2kbd_set_scanmode_key
- * 
- * Sets the scanning mode for a specific key
- * 
- * @param mode the given mode
- * @param key the key's scan code (must be from the )
- */
-void ps2kbd_set_scanmode_key(ps2kbd_scanmode_t mode, unsigned char key);
-
-/**
  * @name ps2kbd_set_typematic_rate_delay
  * 
  * Sets the repeat rate and the delay before keys are repeated.
@@ -112,3 +98,10 @@ void ps2kbd_set_typematic_rate_delay(int repeat_rate, int delays_before_key_repe
  * @return the scan code set, either 1, 2 or 3
  */
 int get_current_scancode_set();
+
+/**
+ * @name ps2kbd_load
+ * 
+ * Loads the ps2kbd driver.
+ */
+void ps2kbd_load();

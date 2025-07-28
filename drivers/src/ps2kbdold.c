@@ -1,4 +1,5 @@
-#include <keyboard/keyboard.h>
+#include <ps2kbdold.h>
+#include <ps2kbd.h>
 #include <driver.h>
 
 #include <kernel.h>
@@ -77,4 +78,5 @@ void keyboard_init() {
     port_put_byte(0x60, 0xF4);
 
     screenlog("Keyboard ready");
+    ps2kbd_set_led_state(PS2KBD_LED_LOCK_SCROLL, true);
 }
