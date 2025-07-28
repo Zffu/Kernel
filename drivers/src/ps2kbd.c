@@ -50,8 +50,33 @@ bool ps2kbd_echo() {
 	return port_get_byte(0x60) == 0xEE;
 }
 
-static void ps2kbd_callback(registers_t regs) {
+/**
+ * @name ps2kbd_enable_scanning
+ * 
+ * Enable the keyboard key scanning.
+ */
+void ps2kbd_enable_scanning() {
+	port_put_byte(0x60, 0xF4);
+}
 
+/**
+ * @name ps2kbd_disable_scanning
+ * 
+ * Disables the kayboard key scanning
+ */
+void ps2kbd_disable_scanning() {
+	port_put_byte(0x60, 0xF5);
+}
+
+
+static void ps2kbd_callback(registers_t regs) {
+	if (!(port_get_byte(0x64) & 0x1)) return;
+
+	u8 scancode = port_get_byte(0x60);
+
+	if(scancode == 0xFF) return;
+
+	
 }
 
 /**
