@@ -9,7 +9,6 @@
 
 typedef enum kbd_layout_t {
 	QWERTY,
+	QWERTZ,
 	AZERTY
 } kbd_layout_t;
-
-keycode get_keycode_layout_ps2kbd(u8 scancode, kbd_layout_t layout);

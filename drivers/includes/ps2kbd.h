@@ -10,6 +10,28 @@
 #define PS2KBD_COMMANDPORT 0x64
 
 /**
+ * Layout-dependant keys
+ */
+#define KEYCODE_A 0x1C
+#define KEYCODE_Q 0x15
+#define KEYCODE_W 0x1D
+#define KEYCODE_Z 0x1A
+#define KEYCODE_M 0x3A
+#define KEYCODE_SEMICOLON 0x4C
+#define KEYCODE_APOSTROPHE 0x52
+#define KEYCODE_GRAVE 0x0E
+#define KEYCODE_MINUS 0x4E
+#define KEYCODE_EQUAL 0x55
+#define KEYCODE_COMMA 0x41
+#define KEYCODE_DOT 0x49
+#define KEYCODE_Y 0x35
+#define KEYCODE_SLASH 0x4A
+#define KEYCODE_LBRACKET 0x54
+#define KEYCODE_RBRACKET 0x5B
+#define KEYCODE_BACKSLASH 0x5D
+
+
+/**
  * LEDs bits
  */
 #define PS2KBD_LED_LOCK_SCROLL 0
