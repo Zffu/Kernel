@@ -3,7 +3,7 @@
 
 #include <driver.h>
 
-#include <keyboard/keyboard.h>
+#include <ps2kbdold.h>
 
 #include <screenprint.h>
 #include <types.h>

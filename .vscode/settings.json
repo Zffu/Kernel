@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"driver.h": "c",
-		"screenprint.h": "c"
+		"screenprint.h": "c",
+		"ps2kbd.h": "c"
 	}
 }
