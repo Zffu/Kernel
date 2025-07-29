@@ -5,6 +5,7 @@
 		"ps2kbd.h": "c",
 		"stdint.h": "c",
 		"str.h": "c",
-		"types.h": "c"
+		"types.h": "c",
+		"pit.h": "c"
 	}
 }

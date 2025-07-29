@@ -1,6 +1,7 @@
 #pragma once
 
 #include <types.h>
+#include <isr.h>
 
 typedef void (*pit_callback_f)(registers_t regs);
 

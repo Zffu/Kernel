@@ -1,5 +1,5 @@
 [org 0x7c00]
-KERNEL_OFFSET equ 0x1000 ; The same one we used when linking the kernel
+KERNEL_OFFSET equ 0x1000 
 
     mov [BOOT_DRIVE], dl ; Remember that the BIOS sets us the boot drive in 'dl' on boot
     mov bp, 0x9000
@@ -11,13 +11,14 @@ KERNEL_OFFSET equ 0x1000 ; The same one we used when linking the kernel
 
     call load_kernel ; read the kernel from disk
     call switch_to_pm ; disable interrupts, load GDT,  etc. Finally jumps to 'BEGIN_PM'
-    jmp $ ; Never executed
+    jmp $
 
 %include "bootsector/print.asm"
 %include "bootsector/disk.asm"
 %include "bootsector/gdt.asm"
 %include "bootsector/32bits.asm"
 %include "bootsector/print32.asm"
+%include "bootsector/cpuhang.asm"
 
 [bits 16]
 load_kernel:
@@ -36,7 +37,7 @@ BEGIN_PM:
     mov ebx, MSG_PROT_MODE
     call print_string_pm
     call KERNEL_OFFSET ; Give control to the kernel
-    jmp $ ; Stay here when the kernel returns control to us (if ever)
+    jmp $
 
 
 BOOT_DRIVE db 0 ; It is a good idea to store it in memory because 'dl' may get overwritten

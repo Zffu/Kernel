@@ -15,6 +15,46 @@ void int_to_ascii(int n, char str[]) {
     reverse(str);
 }
 
+int uint_to_str(unsigned int value, char *out) {
+    int i = 0;
+    if (value == 0) {
+        out[i++] = '0';
+    } else {
+        while (value) {
+            out[i++] = '0' + (value % 10);
+            value /= 10;
+        }
+    }
+    out[i] = '\0';
+
+    reverse(out);
+    return i;
+}
+
+void float_to_string(float f, char *out, int precision) {
+    if (f < 0) {
+        *out++ = '-';
+        f = -f;
+    }
+
+    unsigned int int_part = (unsigned int)f;
+    float frac_part = f - (float)int_part;
+
+    int len = uint_to_str(int_part, out);
+    out += len;
+
+    *out++ = '.';
+
+    // Multiply fractional part to required precision
+    for (int i = 0; i < precision; ++i) {
+        frac_part *= 10;
+    }
+
+    unsigned int frac_int = (unsigned int)(frac_part + 0.5f); // round
+    len = uint_to_str(frac_int, out);
+    out[len] = '\0';
+}
+
 void byte_to_hex(unsigned char byte, char *out) {
     const char hex_chars[] = "0123456789ABCDEF";
     out[0] = hex_chars[(byte >> 4) & 0x0F];  // high nibble

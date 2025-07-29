@@ -5,6 +5,8 @@
 
 #include <keyboard/layout.h>
 
+#include <cpuhalt.h>
+
 #include <isr.h>
 
 #include <screenprint.h>
@@ -155,6 +157,29 @@ static void ps2kbd_callback(registers_t regs) {
 	screenprint("Key: 0x");
 	screenprint(b);
 	screenprint("\n");
+
+	if(scancode == 0x10) {
+		cpu_halt_stats stats;
+		cpuhalt_gather_stats(&stats);
+		char b[32] = {0};
+
+		screenprint("CPU Idle ticks: ");
+		int_to_ascii(stats.idle_ticks, b);
+		screenprint(b);
+
+		screenprint("\nCPU Busy ticks: ");
+		int_to_ascii(stats.total_ticks - stats.idle_ticks, b);
+		screenprint(b);
+
+		screenprint("\nCPU Total ticks: ");
+		int_to_ascii(stats.total_ticks, b);
+		screenprint(b);
+
+		screenprint("\nCPU usage: ");
+		float_to_string(100.0f * (1.0f - ((float)stats.idle_ticks / stats.total_ticks)), b, 5);
+		screenprint(b);
+		screenprint("%\n");
+	}
 	
 	keycode code = (hasE0Prefix) ? scancode_e0_map[scancode] : scancode_map[scancode];
 

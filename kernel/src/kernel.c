@@ -4,6 +4,8 @@
 #include <ps2kbdold.h>
 #include <ps2kbd.h>
 
+#include <cpuhalt.h>
+
 #include <input/inputstream.h>
 
 void main() {
@@ -17,6 +19,11 @@ void main() {
 	screenlog("Loaded ps2kbd driver");
 
 	__asm__ __volatile__("int $0x21");	
+
+	screenlog("Enabling CPU halting");
+	cpuhalt_init();
+
+	cpuhalt_idle_loop();
 }
 
 void userinput_finish(char* buff) {
