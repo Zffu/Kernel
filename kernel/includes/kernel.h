@@ -1,1 +1,3 @@
-void user_input(char* c);
+#include <input/inputstream.h>
+
+inputstream_t* kbd_input_stream();

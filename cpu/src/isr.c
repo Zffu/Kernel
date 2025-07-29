@@ -143,10 +143,3 @@ void irq_handler(registers_t r) {
         handler(r);
     }
 }
-
-void irq_install() {
-    /* Enable interruptions */
-    asm volatile("sti");
-    /* IRQ1: keyboard */
-    keyboard_init();
-}

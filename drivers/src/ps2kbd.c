@@ -1,6 +1,8 @@
 #include <ps2kbd.h>
 #include <driver.h>
 
+#include <str.h>
+
 #include <keyboard/layout.h>
 
 #include <isr.h>
@@ -127,14 +129,33 @@ static void ps2kbd_callback(registers_t regs) {
 	/**
 	 * Check for bounds.
 	 */
-	if(hasE0Prefix && scancode > 125) return;
-	if(!hasE0Prefix && scancode > 0x83) return;
+	//if(hasE0Prefix && scancode > 125) return;
+	//if(!hasE0Prefix && scancode > 0x83) return;
 
 	if(scancode == 0xFF) return;
 
-	if(scancode == 0xF0) isBreakMode = true;
-	if(scancode == 0xE0) hasE0Prefix = true;
+	if(scancode == 0xF0) {
+		isBreakMode = true;
+		return;
+	}
 
+	if(scancode == 0xE0) {
+		hasE0Prefix = true;
+		return;
+	}
+
+	if(!isBreakMode && scancode & 0x80) {
+		isBreakMode = true;
+		scancode &= 0x7F;
+	}
+
+	char b[32] = {0};
+	byte_to_hex(scancode, b);
+
+	screenprint("Key: 0x");
+	screenprint(b);
+	screenprint("\n");
+	
 	keycode code = (hasE0Prefix) ? scancode_e0_map[scancode] : scancode_map[scancode];
 
 	if(!isBreakMode) keyboard_handlekeypress(code);
@@ -165,10 +186,51 @@ void ps2kbd_load() {
 
 	port_put_byte(0x60, 0xF0);
 	port_put_byte(0x60, 0x02);
-	screendebug("Defined ps2kbd scan layout to standart");
+	//screendebug("Defined ps2kbd scan layout to standart");
+
+	port_put_byte(0x60, 0xF0);
+	port_put_byte(0x60, 0x00);
+	while(port_get_byte(0x60) != 0xFA);
+
+	u8 scancode = port_get_byte(0x60);
+
+	switch(scancode) {
+		case 0x43:
+			screendebug("1");
+			break;
+		case 0x41:
+			screendebug("2");
+			break;
+		case 0x3F:
+			screendebug("3");
+			break;
+		default:
+			char e[6];
+			int_to_ascii(scancode, e);
+			screenprint(e);
+	}
 
 	ps2kbd_enable_scanning();
 	screendebug("Enabled ps2kbd scanning");
+
+
+
+	while(port_get_byte(0x64) & 0x2);
+	port_put_byte(0x64, 0x20);
+
+	while(!(port_get_byte(0x64) & 0x1));
+	u8 command = port_get_byte(0x60);
+
+	if((command & 0x40) != 0) {
+		screendebug("ps2kbd translation to set 1 is enabled!");
+	}
+	else {
+		screendebug("translations are disabled!");
+	}
+
+	command &= ~0x40;
+
+	
 
 	register_interrupt_handler(IRQ1, ps2kbd_callback);
 

@@ -2,6 +2,9 @@
 	"files.associations": {
 		"driver.h": "c",
 		"screenprint.h": "c",
-		"ps2kbd.h": "c"
+		"ps2kbd.h": "c",
+		"stdint.h": "c",
+		"str.h": "c",
+		"types.h": "c"
 	}
 }
