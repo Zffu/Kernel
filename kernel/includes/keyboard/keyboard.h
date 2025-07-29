@@ -43,6 +43,13 @@ typedef enum keycode {
     KEY_UNKNOWN
 } keycode;
 
+typedef struct kbd_state_t {
+	bool shift;
+	bool caps_lock;
+	bool alt_gr;
+	bool ctrl;
+} kbd_state_t;
+
 /**
  * @name keyboard_handlekeypress
  * 
