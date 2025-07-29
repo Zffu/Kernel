@@ -93,7 +93,6 @@ typedef enum keycode
 	KEY_KP_MULTIPLY,
 	KEY_KP_SUBTRACT,
 	KEY_KP_ADD,
-	KEY_KP_ENTER,
 	KEY_KP_1,
 	KEY_KP_2,
 	KEY_KP_3,
@@ -112,6 +111,8 @@ typedef enum keycode
 
 	KEY_ENTER,
 	KEY_BACKSPACE,
+	
+	KEY_KP_ENTER,
 
 	KEY_CAPSLOCK,
 
