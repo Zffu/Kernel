@@ -51,7 +51,7 @@ typedef enum ps2kbd_scanmode_t {
 	ALL
 } ps2kbd_scanmode_t;
 
-bool ps2kbd_ack();
+void ps2kbd_ack();
 
 /**
  * @name ps2kbd_set_led_state 
@@ -113,13 +113,13 @@ void ps2kbd_set_default_params();
 void ps2kbd_set_typematic_rate_delay(int repeat_rate, int delays_before_key_repeat);
 
 /**
- * @name get_current_scancode_set
+ * @name ps2kbd_scancode_getset
  * 
- * Gets the current scan code set.
+ * Gets the current scan code set from the i8042 controller.
  * 
  * @return the scan code set, either 1, 2 or 3
  */
-int get_current_scancode_set();
+int ps2kbd_scancode_getset();
 
 /**
  * @name ps2kbd_load

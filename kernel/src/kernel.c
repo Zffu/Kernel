@@ -1,7 +1,6 @@
 #include <screenprint.h>
 
 #include <isr.h>
-#include <ps2kbdold.h>
 #include <ps2kbd.h>
 
 #include <cpuhalt.h>

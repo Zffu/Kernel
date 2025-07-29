@@ -3,8 +3,6 @@
 
 #include <driver.h>
 
-#include <ps2kbdold.h>
-
 #include <screenprint.h>
 #include <types.h>
 #include <str.h>
