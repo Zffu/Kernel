@@ -5,7 +5,7 @@ HEADERS = $(call rwildcard,includes,*.h) $(call rwildcard,drivers,*.h) $(call rw
 
 OBJ = ${KERNEL_SOURCES:.c=.o cpu/interrupt.o}
 
-FLAGS = -g -Iinclude -Istd/includes -Idrivers/includes -Icpu/includes -Ikernel
+FLAGS = -g -Iinclude -Istd/includes -Idrivers/includes -Icpu/includes -Ikernel/includes
 
 all: os-image.bin
 image: os-image.bin

@@ -80,7 +80,7 @@ typedef enum keycode {
 	SPECIAL_2,
 
 	/**
-	 * The dot key
+	 * The dot & ; key
 	 */
 	SPECIAL_3,
 

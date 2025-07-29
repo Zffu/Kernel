@@ -5,6 +5,8 @@
 #include <ps2kbd.h>
 
 void main() {
+	clearscreen();
+	
 	screenprint("[INFO] Installing the CPU ISR\n");
 	isr_install();
 
