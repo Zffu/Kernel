@@ -1,38 +1,29 @@
-gdt_start: ; don't remove the labels, they're needed to compute sizes and jumps
-    ; the GDT starts with a null 8-byte
-    dd 0x0 ; 4 byte
-    dd 0x0 ; 4 byte
+; Global Descriptor Table
+gdt_start:
+    dq 0x0000000000000000 ; Null descriptor
 
-; GDT for code segment. base = 0x00000000, length = 0xfffff
-; for flags, refer to os-dev.pdf document, page 36
-gdt_code: 
-    dw 0xffff    ; segment length, bits 0-15
-    dw 0x0       ; segment base, bits 0-15
-    db 0x0       ; segment base, bits 16-23
-    db 10011010b ; flags (8 bits)
-    db 11001111b ; flags (4 bits) + segment length, bits 16-19
-    db 0x0       ; segment base, bits 24-31
-    ;db 10011010b ; flags: Present=1, Ring=00, Code=1, Readable=1, Only allows ring 0 to read kernel code
+gdt_code:
+    dw 0xFFFF             ; Limit (bits 0-15)
+    dw 0x0000             ; Base (bits 0-15)
+    db 0x00               ; Base (bits 16-23)
+    db 10011010b          ; Flags
+    db 11001111b          ; Flags + Limit (bits 16-19)
+    db 0x00               ; Base (bits 24-31)
 
-
-; GDT for data segment. base and length identical to code segment
-; some flags changed, again, refer to os-dev.pdf
 gdt_data:
-    dw 0xffff
-    dw 0x0
-    db 0x0
-    db 10010010b
-    db 11001111b
-    db 0x0
-    ;db 10010010b ; flags: Present=1, Ring=00, Data=1, Writable=1, Only allows ring 0 to modify kernel memory
+    dw 0xFFFF             ; Limit (bits 0-15)
+    dw 0x0000             ; Base (bits 0-15)
+    db 0x00               ; Base (bits 16-23)
+    db 10010010b          ; Flags
+    db 11001111b          ; Flags + Limit (bits 16-19)
+    db 0x00               ; Base (bits 24-31)
 
 gdt_end:
 
-; GDT descriptor
 gdt_descriptor:
-    dw gdt_end - gdt_start - 1 ; size (16 bit), always one less of its true size
-    dd gdt_start ; address (32 bit)
+    dw gdt_end - gdt_start - 1 ; GDT size
+    dd gdt_start               ; GDT address
 
-; define some constants for later use
+; Constants
 CODE_SEG equ gdt_code - gdt_start
 DATA_SEG equ gdt_data - gdt_start
