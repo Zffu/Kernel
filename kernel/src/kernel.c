@@ -7,9 +7,27 @@
 
 #include <input/inputstream.h>
 
+#include <keyboard/keyboard.h>
+
+#include <str.h>
+
+
+volatile keycode scancode_map_set51[256] __attribute__((used)) = {
+    [0x10] = KEY_Q,
+};
+
+
+
 void main() {
+
 	clearscreen();
-	
+
+
+	char b[50];
+	int_to_ascii(scancode_map_set51[0x10], b);
+	screenprint(b);
+	screenprint("\n");
+
 	screenprint("[INFO] Installing the CPU ISR\n");
 	isr_install();
 

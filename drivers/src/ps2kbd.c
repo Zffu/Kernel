@@ -12,7 +12,7 @@
 
 #include <screenprint.h>
 
-keycode scancode_map_set1[128] = {
+static keycode scancode_map_set1[256] = {
     [0x01] = KEY_ESC,
     [0x02] = KEY_1, [0x03] = KEY_2, [0x04] = KEY_3, [0x05] = KEY_4,
     [0x06] = KEY_5, [0x07] = KEY_6, [0x08] = KEY_7, [0x09] = KEY_8,
@@ -52,7 +52,7 @@ keycode scancode_map_set1[128] = {
     [0x57] = KEY_F11, [0x58] = KEY_F12
 };
 
-keycode scancode_e0_map_set1[128] = {
+static keycode scancode_e0_map_set1[128] = {
     [0x1C] = KEY_KP_ENTER,
     [0x1D] = KEY_RCTRL,
     [0x35] = KEY_KP_DIVIDE,
@@ -74,7 +74,7 @@ keycode scancode_e0_map_set1[128] = {
     [0x46] = KEY_PAUSE, // See note below
 };
 
-keycode scancode_map_set2[256] = {
+static keycode scancode_map_set2[256] = {
     [0x1C] = KEY_A, [0x32] = KEY_B, [0x21] = KEY_C, [0x23] = KEY_D,
     [0x24] = KEY_E, [0x2B] = KEY_F, [0x34] = KEY_G, [0x33] = KEY_H,
     [0x43] = KEY_I, [0x3B] = KEY_J, [0x42] = KEY_K, [0x4B] = KEY_L,
@@ -108,7 +108,7 @@ keycode scancode_map_set2[256] = {
     [0x75] = KEY_KP_8, [0x7D] = KEY_KP_9, [0x71] = KEY_KP_DOT
 };
 
-keycode scancode_e0_map_set2[256] = {
+static keycode scancode_e0_map_set2[256] = {
     [0x11] = KEY_RALT, [0x14] = KEY_RCTRL,
     [0x1F] = KEY_LGUI, [0x27] = KEY_RGUI, [0x2F] = KEY_APPS,
 
@@ -122,9 +122,6 @@ keycode scancode_e0_map_set2[256] = {
 bool isBreakMode = false;
 bool hasE0Prefix = false;
 int ps2kbd_scancode_set = 0;
-
-keycode* ps2kbd_curr_scancode_set;
-keycode* ps2kbd_curr_scancode_set_e0;
 
 void ps2kbd_ack() {
 	while(port_get_byte(0x60) != 0xFA);
@@ -188,17 +185,44 @@ static void ps2kbd_callback(registers_t regs) {
 		return;
 	}
 
-	if(!isBreakMode && scancode & 0x80) {
+	if(ps2kbd_scancode_set == 1 && !isBreakMode && scancode & 0x80) {
 		isBreakMode = true;
 		scancode &= 0x7F;
 	}
 
-	keycode code = (hasE0Prefix) ? ps2kbd_curr_scancode_set_e0[scancode] : ps2kbd_curr_scancode_set[scancode];
+	keycode code = KEY_UNKNOWN;
+
+	switch(ps2kbd_scancode_set) {
+		case 1:
+			code = (hasE0Prefix) ? scancode_e0_map_set1[scancode] : scancode_map_set1[scancode];
+			break;
+		case 2:
+			code = (hasE0Prefix) ? scancode_e0_map_set2[scancode] : scancode_map_set2[scancode];
+			break;
+	}
 
 	char b[50];
 	int_to_ascii(code, b);
 
 	screenprint("Keycode: ");
+	screenprint(b);
+	screenprint("\n");
+
+	byte_to_hex(scancode, b);
+	screenprint("Scancode: 0x");
+	screenprint(b);
+	screenprint("\n");
+
+	volatile keycode test_val = scancode_map_set1[0x10];
+
+	int_to_ascii(KEY_Q, b);
+	screenprint("KEY_Q = "); screenprint(b); screenprint("\n");
+
+	int_to_ascii(test_val, b);
+	screenprint("map[0x10] = "); screenprint(b); screenprint("\n");
+
+	byte_to_hex(test_val, b);
+	screenprint("0x");
 	screenprint(b);
 	screenprint("\n");
 
@@ -247,20 +271,13 @@ void ps2kbd_load() {
 		ps2kbd_scancode_set = set;
 	}
 	
-	//TODO: ADD the scancode set 3
-	switch(ps2kbd_scancode_set) {
-		case 1:
-			ps2kbd_curr_scancode_set = scancode_map_set1;
-			ps2kbd_curr_scancode_set_e0 = scancode_e0_map_set1;
-			break;
-		case 2:
-			ps2kbd_curr_scancode_set = scancode_map_set2;
-			ps2kbd_curr_scancode_set_e0 = scancode_e0_map_set2;
-			break;	
-		default:
-			screenwarn("ps2kbd scancode set coudln't be determined!");
-	}
-	
+	char b[5];
+	int_to_ascii(ps2kbd_scancode_set, b);
+
+	screenprint("Current scancode set: ");
+	screenprint(b);
+	screenprint("\n");
+
 	ps2kbd_enable_scanning();
 
 	register_interrupt_handler(IRQ1, ps2kbd_callback);

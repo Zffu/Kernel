@@ -59,6 +59,7 @@ void byte_to_hex(unsigned char byte, char *out) {
     const char hex_chars[] = "0123456789ABCDEF";
     out[0] = hex_chars[(byte >> 4) & 0x0F];  // high nibble
     out[1] = hex_chars[byte & 0x0F];         // low nibble
+    out[2] = '\0';
 }
 
 void hex_to_ascii(int n, char str[]) {
