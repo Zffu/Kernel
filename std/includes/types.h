@@ -2,7 +2,7 @@
 
 #define REGISTER_FAMILLY(type, sz) \
 	typedef type s##sz; \
-	typedef type u##sz;
+	typedef unsigned type u##sz;
 
 
 REGISTER_FAMILLY(int, 32)
