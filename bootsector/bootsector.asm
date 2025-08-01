@@ -1,12 +1,27 @@
 [org 0x7c00]
 [bits 16]
 
+%include "bootsector/gdt.asm"
+%include "bootsector/mem.asm"
+
 ; Constants
 KERNEL_OFFSET equ 0x1000    ; Where we'll load the kernel in memory
 KERNEL_SECTORS equ 32       ; Maximum number of sectors to read (adjustable)
 
+section .bss
+    e820_map resb 640
+
+
 ; Initialize segments and stack
 cli                         ; Disable interrupts
+mov cx, 32
+mov bx, 0
+mov ax, 0
+mov es, 0x9000
+mov di, 0x0000
+
+call e820_fetch
+
 xor ax, ax
 mov ds, ax
 mov es, ax
@@ -23,6 +38,9 @@ call print_string
 
 ; Load kernel from disk
 call load_kernel
+
+; Load the memory map using e820
+call e820_mem_map
 
 ; Switch to protected mode
 call switch_to_pm
@@ -98,8 +116,6 @@ init_pm:
 
     ; Jump to kernel
     jmp KERNEL_OFFSET
-
-%include "bootsector/gdt.asm"
 
 ; Variables
 BOOT_DRIVE: db 0
