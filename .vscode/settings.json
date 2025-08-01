@@ -6,6 +6,7 @@
 		"stdint.h": "c",
 		"str.h": "c",
 		"types.h": "c",
-		"pit.h": "c"
+		"pit.h": "c",
+		"stdlib.h": "c"
 	}
 }
