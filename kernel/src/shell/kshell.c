@@ -74,6 +74,19 @@ void kshell_process_entry() {
 
 				n = n->next;
 			}
+		} else if(strcmp(args[0], "detach")) {
+			internal_task_t* n = taskio_internaltask_queue;
+
+			while(n != 0) {
+				if(strcmp(n->name, args[1])) {
+					n->detatch();
+					break;
+				}
+			}
+
+			screenprint("\nInternal Task ");
+			screenprint(args[1]);
+			screenprint(" was detached if it was active!");
 		}
 	}
 }
