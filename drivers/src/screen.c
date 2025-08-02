@@ -14,6 +14,19 @@ int get_offset_col(int offset);
  * STD screenprint defs
  */
 
+void screenprint_char_at(char c, int col, int row) {
+    int offset;
+	if (col >= 0 && row >= 0)
+        offset = get_offset(col, row);
+    else {
+        offset = get_cursor_offset();
+        row = get_offset_row(offset);
+        col = get_offset_col(offset);
+    }
+
+    print_char(c, col, row, WHITE_ON_BLACK);
+}
+
 void screenprint_at(char* text, int col, int row) {
 	int offset;
 	if (col >= 0 && row >= 0)
@@ -68,10 +81,17 @@ void clearscreen() {
 }
 
 void screenbackspace() {
-    int offset = get_cursor_offset()-2;
-    int row = get_offset_row(offset);
-    int col = get_offset_col(offset);
-    print_char(0x08, col, row, WHITE_ON_BLACK);
+    int offset = get_cursor_offset();
+
+    if(offset == 0) return;
+
+    offset -= 2;
+
+    u8* vidmem = (u8*) VIDEO_ADDR;
+    vidmem[offset] = ' ';
+    vidmem[offset + 1] = WHITE_ON_BLACK;
+
+    set_cursor_offset(offset);
 }
 
 /**

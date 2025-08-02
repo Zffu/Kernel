@@ -123,10 +123,17 @@ void isr_handler(registers_t reg) {
 	screenprint("\n");
 	screenprint(exception_messages[reg.int_no]);
 	screenprint("\nThe exception might be fatal!\n");
+
+    cpu_send_eio(reg.int_no);
 }
 
 void register_interrupt_handler(u8 n, isr_t handler) {
     interrupt_handlers[n] = handler;
+}
+
+void cpu_send_eio(u8 irq) {
+    if(irq >= 8) port_put_byte(0xA0, 0x20);
+    port_put_byte(0x20, 0x20);
 }
 
 void irq_handler(registers_t r) {

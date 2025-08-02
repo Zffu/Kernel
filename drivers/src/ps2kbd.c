@@ -201,31 +201,6 @@ static void ps2kbd_callback(registers_t regs) {
 			break;
 	}
 
-	char b[50];
-	int_to_ascii(code, b);
-
-	screenprint("Keycode: ");
-	screenprint(b);
-	screenprint("\n");
-
-	byte_to_hex(scancode, b);
-	screenprint("Scancode: 0x");
-	screenprint(b);
-	screenprint("\n");
-
-	volatile keycode test_val = scancode_map_set1[0x10];
-
-	int_to_ascii(KEY_Q, b);
-	screenprint("KEY_Q = "); screenprint(b); screenprint("\n");
-
-	int_to_ascii(test_val, b);
-	screenprint("map[0x10] = "); screenprint(b); screenprint("\n");
-
-	byte_to_hex(test_val, b);
-	screenprint("0x");
-	screenprint(b);
-	screenprint("\n");
-
 	if(!isBreakMode) keyboard_handlekeypress(code);
 	else keyboard_handlekeyrelease(code);
 

@@ -13,6 +13,8 @@
  */
 void screenprint_at(char* text, int col, int row);
 
+void screenprint_char_at(char c, int col, int row);
+
 /**
  * @name print
  * 

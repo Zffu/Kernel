@@ -1,7 +1,7 @@
 #pragma once
 
 typedef enum event_t {
-	KBDKEY
+	KBDKEY_PRESS
 } event_t;
 
 #define EVENTSZ 1

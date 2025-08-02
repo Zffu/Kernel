@@ -11,6 +11,8 @@
 
 #include <str.h>
 
+#include <shell/kshell.h>
+
 
 volatile keycode scancode_map_set51[256] __attribute__((used)) = {
     [0x10] = KEY_Q,
@@ -40,26 +42,7 @@ void main() {
 	screenlog("Enabling CPU halting");
 	cpuhalt_init();
 
+	kshell_start_sess();
+
 	cpuhalt_idle_loop();
-}
-
-void userinput_finish(char* buff) {
-	screenlog("> ");
-	screenprint(buff);
-}
-
-void userinput_push(char c) {
-	screenprint((char*){c});
-}
-
-inputstream_t inputstream = {
-	.buff = {0},
-	.sz = 0,
-	.user_finish = userinput_finish,
-	.user_push = userinput_push
-};
-
-
-inputstream_t* kbd_input_stream() {
-	return &inputstream;
 }
