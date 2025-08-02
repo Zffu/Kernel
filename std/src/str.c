@@ -1,6 +1,8 @@
 #include <str.h>
 #include <stdint.h>
 
+#include <types.h>
+
 void int_to_ascii(int n, char str[]) {
     int i, sign;
     if ((sign = n) < 0) n = -n;
@@ -102,6 +104,18 @@ void append(char s[], char n) {
     s[len+1] = '\0';
 }
 
+u8 strcmp(char* s, char* s2) {
+    u8 c1, c2;
+
+    do {
+        c1 = (u8) *s++;
+        c2 = (u8) *s2++;
+        if(c1 == '\0') return c1 == c2;
+    } while (c1 == c2);
+
+    return c1 == c2;
+}
+
 int strlen(char* s) {
     int len = 0;
     char c;
@@ -109,4 +123,19 @@ int strlen(char* s) {
         ++len;
     }
     return len;
+}
+
+void str_split(char* str, char seperator, char** argptrs, int* arg_sz) {
+    *arg_sz = 0;
+
+    char c;
+    while(c = *str++) {
+        if(c == '\0') return;
+
+        if(c == seperator) {
+            *(str - 1) = '\0';
+            argptrs[*arg_sz] = str;
+            ++*arg_sz;
+        }
+    }
 }

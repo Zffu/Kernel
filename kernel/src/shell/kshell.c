@@ -1,12 +1,14 @@
 #include <eventio.h>
+#include <taskio.h>
 #include <keyboard/keyboard.h>
 #include <keyboard/layout.h>
 
 #include <str.h>
 
 #include <shell/kshell.h>
-
 #include <screenprint.h>
+
+extern internal_task_t* taskio_internaltask_queue;
 
 char kshell_line_buff[256] = {0};
 int kshell_buff_sz = 0;
@@ -54,6 +56,24 @@ void kshell_print_userinput_line() {
 }
 
 void kshell_process_entry() {
-	screenprint("\n");
-	screenprint(kshell_line_buff);
+	char* args[32] = {0};
+	int arg_sz = 0;
+
+	str_split(kshell_line_buff, ' ', args, &arg_sz);
+
+	if(strcmp(kshell_line_buff, "taskio")) {
+		if(strcmp(args[0], "list")) {
+			screenprint("\nTaskIO running tasks (Internal):\n");
+
+			internal_task_t* n = taskio_internaltask_queue;
+
+			while(n != 0) {
+				screenprint("- ");
+				screenprint(n->name);
+				screenprint(" INTERNALTASK DETACHABLE\n");
+
+				n = n->next;
+			}
+		}
+	}
 }

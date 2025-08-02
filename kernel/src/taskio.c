@@ -23,7 +23,7 @@ task_t* create_task(char* name, void (*entry_point)()) {
 
 	if(!taskio_task_queue) {
 		taskio_task_queue = task;
-		task->next = task;
+		task->next = 0;
 	}
 	else {
 		taskio_task_queue->prev = task;
@@ -35,12 +35,14 @@ task_t* create_task(char* name, void (*entry_point)()) {
 internal_task_t* create_internal_task(char* name, void (*detach)()) {
 	internal_task_t* task = kmallocs(sizeof(task_t), 1);
 
+	task->name = name;
+
 	task->next = taskio_internaltask_queue;
 	task->detatch = detach;
 
 	if(!taskio_internaltask_queue) {
 		taskio_internaltask_queue = task;
-		task->next = task;
+		task->next = 0;
 	}
 	else {
 		taskio_internaltask_queue->prev = task;

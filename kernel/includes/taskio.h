@@ -15,7 +15,7 @@
  * trough the CPU timer interrupt
  */
 typedef struct taskio_task_t__bundled {
-	u8 id;
+	char* name;
 	void *(*detatch)();
 
 	struct taskio_task_t__bundled* prev;

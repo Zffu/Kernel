@@ -7,6 +7,7 @@
 		"str.h": "c",
 		"types.h": "c",
 		"pit.h": "c",
-		"stdlib.h": "c"
+		"stdlib.h": "c",
+		"taskio.h": "c"
 	}
 }

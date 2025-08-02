@@ -22,15 +22,15 @@ all: os-image.bin
 image: os-image.bin
 
 kernel: kernel.bin
-bootsector: bootsector/bootsector.bin
+bios: bios/bootsector.bin
 
-os-image.bin: bootsector/bootsector.bin kernel.bin
-	copy /b bootsector\bootsector.bin + kernel.bin os-image.bin
+os-image.bin: bios/bootsector.bin kernel.bin
+	copy /b bios\bootsector.bin + kernel.bin os-image.bin
 
-kernel.bin: bootsector/kernel.o ${OBJ}
+kernel.bin: bios/kernel.o ${OBJ}
 	i686-elf-ld -o $@ -Ttext 0x1000 $^ --oformat binary
 
-kernel.elf: bootsector/kernel.o ${OBJ}
+kernel.elf: bios/kernel.o ${OBJ}
 	i686-elf-ld -o $@ -Ttext 0x1000 $^ 
 
 run: os-image.bin
@@ -52,4 +52,4 @@ endef
 
 clean:
 	$(foreach file,$(OBJ),$(RM) $(call fixpath,$(file));)
-	$(RM) $(call fixpath,bootsector\bootsector.bin) $(call fixpath,bootsector\kernel.o) kernel.bin os-image.bin
+	$(RM) $(call fixpath,bios\bootsector.bin) $(call fixpath,bios\kernel.o) kernel.bin os-image.bin

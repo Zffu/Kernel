@@ -2,6 +2,8 @@
 #include <i8042.h>
 #include <driver.h>
 
+#include <taskio.h>
+
 #include <str.h>
 
 #include <keyboard/layout.h>
@@ -230,6 +232,12 @@ int ps2kbd_scancode_getset() {
 	return -1;
 }
 
+void ps2kbd_detach() {
+	ps2kbd_disable_scanning();
+
+	register_interrupt_handler(IRQ1, 0);
+}
+
 void ps2kbd_load() {
 	i8042_wait_input_buffempty();
 
@@ -256,6 +264,8 @@ void ps2kbd_load() {
 	ps2kbd_enable_scanning();
 
 	register_interrupt_handler(IRQ1, ps2kbd_callback);
+
+	create_internal_task("ps2kbd", ps2kbd_detach);
 
 	screenlog("Loaded ps2kbd driver");
 }
