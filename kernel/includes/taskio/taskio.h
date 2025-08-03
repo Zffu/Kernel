@@ -28,6 +28,12 @@ extern task_t* current_task;
 
 typedef u8 taskio_task_authority 
 
+#define TASK_AUTHORITY_NORMAL 0
+#define TASK_AUTHORITY_INTERNAL 1
+#define TASK_AUTHORITY_DRIVER 2
+#define TASK_AUTHORITY_KERNELSPIN 3
+#define TASK_AUTHORITY_KERNEL 4
+
 /**
  * Defines tasks that are fully 'internal', AKA tasks that do NOT need to be ticked 
  * trough the CPU timer interrupt
