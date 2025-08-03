@@ -12,6 +12,12 @@
 
 #define TASKIO_TASK_LIKELY_POINTER u8*
 
+extern task_t* taskio_task_queue;
+extern internal_task_t* taskio_internaltask_queue;
+
+#define TASKIO_FINDTASK(name) find_task(name, taskio_task_queue)
+#define TASKIO_FINDINTERNAL(name) find_task(name, taskio_internaltask_queue)
+
 /**
  * Defines tasks that are fully 'internal', AKA tasks that do NOT need to be ticked 
  * trough the CPU timer interrupt
