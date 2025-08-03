@@ -35,16 +35,27 @@ typedef struct taskio_task_t__bundled {
  */
 typedef struct taskio_task_t {
 	char* name;
+
+	struct taskio_task_t* prev;
+	struct taskio_task_t* next;
+
 	u32* stack;
 
 	u32 esp, ebp, eip;
 	u32 eax, ebx, ecx, edx;
 	u32 esi, edi;
 	u32 eflags;
-
-	struct taskio_task_t* prev;
-	struct taskio_task_t* next;
 } task_t;
+
+/**
+ * Common structures between task_t and internal_task_t
+*/
+typedef struct taskio_task_common_t {
+	char* name;
+
+	struct taskio_task_common_t* prev;
+	struct taskio_task_common_t* next;
+} taskio_task_common_t;
 
 typedef void (*entry_point_t)();
 typedef void (*detach_point_t)();
