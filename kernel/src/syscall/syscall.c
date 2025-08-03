@@ -70,7 +70,8 @@ syscall_response khandle_syscall(syscall call, SYSCALL_ARGBUFF argbuff) {
 
             if(task == 0) return ACCEPT_ERR;
             return ACCEPT;
-
+        default:
+            return INVALID_SYSCALL;
         
     }
 }
