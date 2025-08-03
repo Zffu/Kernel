@@ -38,6 +38,9 @@ typedef struct taskio_task_t {
 	struct taskio_task_t* next;
 } task_t;
 
+typedef void (*entry_point_t)();
+typedef void (*detach_point_t)();
+
 /**
  * @name create_task
  * 

@@ -71,5 +71,32 @@ syscall_response khandle_syscall(syscall call, SYSCALL_ARGBUFF argbuff) {
             }
 
             return ACCEPT_ERR;
+
+        case TASK_SPAWN:
+            if(argbuff == SYSCALL_NOARGS) return INVALID_SYSCALL;
+            u8* ptr = (u8*) argbuff;
+
+            u8 mode = *(ptr);
+            u8* point = *((u8**)(ptr + 1));
+            char* name = *((char**)(ptr + sizeof(u8*) + 1));
+
+            if(mode < 0 || mode > 1) return INVALID_SYSCALL;
+            if(point == 0 || name == 0) return INVALID_SYSCALL;
+
+            // TODO: make internal tasks require additional permissions
+
+            if(mode == 0x00) {
+                task_t* task = create_task(name, (entry_point_t)(point));
+
+                if(task == 0) return ACCEPT_ERR;
+                return ACCEPT;
+            }
+
+            internal_task_t* task = create_internal_task(name, (detach_point_t)(point));
+
+            if(task == 0) return ACCEPT_ERR;
+            return ACCEPT;
+
+        
     }
 }
