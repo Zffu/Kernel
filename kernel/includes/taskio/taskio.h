@@ -18,6 +18,14 @@ extern internal_task_t* taskio_internaltask_queue;
 #define TASKIO_FINDTASK(name) find_task(name, taskio_task_queue)
 #define TASKIO_FINDINTERNALTASK(name) find_task(name, taskio_internaltask_queue)
 
+#define TASKIO_FINDTASK_0(name) TASKIO_FINDTASK(name)
+#define TASKIO_FINDTASK_1(name) TASKIO_FINDINTERNALTASK(name)
+
+#define TASKIO_KILLTASKBYNAME(name, result, type) \
+	TASKIO_TASK_LIKELY_POINTER task = TASKIO_FINDTASK_##type(name); \
+	result = (task != 0) ? taskthis_kill_instant(result, type) : 0x00;
+	
+
 /**
  * Defines tasks that are fully 'internal', AKA tasks that do NOT need to be ticked 
  * trough the CPU timer interrupt
