@@ -24,7 +24,6 @@ extern internal_task_t* taskio_internaltask_queue;
 #define TASKIO_KILLTASKBYNAME(name, result, type) \
 	TASKIO_TASK_LIKELY_POINTER task = TASKIO_FINDTASK_##type(name); \
 	result = (task != 0) ? taskthis_kill_instant(result, type) : 0x00;
-	
 
 /**
  * Defines tasks that are fully 'internal', AKA tasks that do NOT need to be ticked 
@@ -104,3 +103,9 @@ TASKIO_TASK_LIKELY_POINTER find_task(char* name, TASKIO_TASK_LIKELY_POINTER tree
  * @return 0x00 if the task couldn't be killed, 0x01 if it was
  */
 u8 task_kill_instant(TASKIO_TASK_LIKELY_POINTER task, u8 mode);
+
+/**
+ * @name get_current_task
+ * @return the current running task
+*/
+#define get_current_task() taskio_task_queue;
