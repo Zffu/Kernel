@@ -36,3 +36,36 @@ typedef enum syscall_response {
 } syscall_response;
 
 
+/**
+ * The available system calls.
+*/
+typedef enum syscall {
+    
+    /**
+     * Prints a message
+    */
+    PRINT,
+
+    /**
+     * Asks for either read or write rights on a specific IO port,
+     * The issuer task has to be considered as a driver task for the request to be considered.
+    */
+    IOPORT_REQ,
+
+    /**
+     * Requests to apply the driver status to the issuer process. This request will always fail if said task isn't
+     * internally spun by the kernel.
+    */
+    DRIVERTASK_REQ,
+
+    /**
+    * Kills a specified task. This request will fail if the permissions of the issuer aren't high enough (if a program tries closing another program and isn't privilleged).
+    */
+    TASK_KILL,
+
+    /**
+     * Spawns / creates a process. The request will fail if the issuer tries spawning a task that is either internal or requires higher permissions than what the issuer has.
+    */
+    TASK_SPAWN
+    
+} syscall;
