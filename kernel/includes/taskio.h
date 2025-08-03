@@ -56,3 +56,21 @@ task_t* create_task(char* name, void (*entry_point)());
  * @param detach the function allowing to detach/kill the internal tasks
  */
 internal_task_t* create_internal_task(char* name, void (*detach)());
+
+/**
+ * @name find_task
+ *
+ * Finds a task based on the name of it
+ *
+ * @param name the name of the task
+*/
+task_t* find_task(char* name);
+
+/**
+ * @name find_internal_task
+ *
+ * Finds an internal task based on the name of it
+ *
+ * @param name the name of the internal task
+*/
+internal_task_t* find_internal_task(char* name);
