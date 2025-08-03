@@ -95,18 +95,6 @@ internal_task_t* create_internal_task(char* name, void (*detach)());
 TASKIO_TASK_LIKELY_POINTER find_task(char* name, TASKIO_TASK_LIKELY_POINTER tree);
 
 /**
- * @name task_kill_instant
- *
- * Kills the task if it exists, skips every permission / authority check when killing the task, doesn't wait for the app to be ready.
- *
- * @param name the name of the task
- * @param tree the tree pointer of the tasks.
- * @param mode the mode, 0x00 if normal task, 0x01 if internal
- * @return 0x00 if the task couldn't be killed, 0x01 if it was
- */
-u8 task_kill_instant(char* name, TASKIO_TASK_LIKELY_POINTER tree, u8 mode);
-
-/**
  * @name taskthis_kill_instant
  *
  * Kills the task, skips every permission / authority check when killing the task, doesn't wait for the app to be ready.
@@ -115,4 +103,4 @@ u8 task_kill_instant(char* name, TASKIO_TASK_LIKELY_POINTER tree, u8 mode);
  * @param mode the mode, 0x00 if normal task, 0x01 if internal
  * @return 0x00 if the task couldn't be killed, 0x01 if it was
  */
-u8 taskthis_kill_instant(TASKIO_TASK_LIKELY_POINTER task, u8 mode);
+u8 task_kill_instant(TASKIO_TASK_LIKELY_POINTER task, u8 mode);
