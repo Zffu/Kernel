@@ -2,7 +2,7 @@
 #include <syscall.h>
 #include <io/ioports.h>
 
-#include <taskio.h>
+#include <taskio/taskio.h>
 
 #include <str.h>
 
@@ -41,36 +41,10 @@ syscall_response khandle_syscall(syscall call, SYSCALL_ARGBUFF argbuff) {
             if(task_type < 0 || task_type > 1) return INVALID_SYSCALL;
             if(task_name == 0) return INVALID_SYSCALL;
 
-            // Internal
-            if(task_type == 0x01) {
-                internal_task_t* node = taskio_internaltask_queue;
+            //TODO: check permissions of task before using priviledged function
 
-                while(node != 0) {
-                    if(strcmp(task_name, node->name)) {
-                        node->detach();
-
-                        return ACCEPTED;
-                    }
-
-                    node = node->next;
-                }
-
-                return ACCEPT_ERR;
-            }
-            
-            task_t* node = taskio_task_queue;
-
-            while(node != 0) {
-                if(strcmp(task_name, node)) {
-                    // TODO: remove node
-
-                    return ACCEPTED;
-                }
-
-                node = node->next;
-            }
-
-            return ACCEPT_ERR;
+            if(task_kill_instant(task_name, task_type) == 0) return ACCEPT_ERR;
+            return ACCEPT;
 
         case TASK_SPAWN:
             if(argbuff == SYSCALL_NOARGS) return INVALID_SYSCALL;

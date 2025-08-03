@@ -1,4 +1,4 @@
-#include <taskio.h>
+#include <taskio/taskio.h>
 #include <memalloc.h>
 #include <mem.h>
 
@@ -82,4 +82,15 @@ u8 task_kill_instant(char* name, TASKIO_TASK_LIKELY_POINTER tree, u8 mode) {
 	}
 
 	return 0x00;
+}
+
+u8 taskthis_kill_instant(TASKIO_TASK_LIKELY_POINTER task, u8 mode) {
+	if(task == 0)  return 0x00;
+
+	if(mode == 0x01) ((internal_task_t*)task)->detach();
+
+	if(task->prev != 0) task->prev->next = task->next;
+	if(task->next != 0) task->next->prev = task->prev;
+
+	return 0x01;
 }
