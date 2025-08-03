@@ -4,6 +4,10 @@
 
 #pragma once
 
+
+#define SYSCALL_ARGBUFF void*
+#define SYSCALL_NOARGS ((void*)0)
+
 /**
  * The possible responses from a kernel syscall
  */
@@ -69,3 +73,11 @@ typedef enum syscall {
     TASK_SPAWN
     
 } syscall;
+
+/**
+ * Requests a syscall to the kernel.
+ * @param call the systemcall to request
+ * @param args the syscall arguments, should be SYSCALL_NOARGS if no arguments
+ * @return a response to your syscall.s
+*/
+syscall_response syscall(syscall call, SYSCALL_ARGBUFF args);
