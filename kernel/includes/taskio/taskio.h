@@ -10,7 +10,7 @@
 #define TASKIO_PERTASK_STACK_SIZE 256
 #endif
 
-#define TASKIO_TASK_LIKELY_POINTER u8*
+#define TASKIO_TASK_LIKELY_POINTER taskio_task_common_t*
 
 extern task_t* taskio_task_queue;
 extern internal_task_t* taskio_internaltask_queue;
