@@ -51,25 +51,12 @@ internal_task_t* create_internal_task(char* name, void (*detach)()) {
 	}
 }
 
-task_t* find_task(char* name) {
-	task_t* n = taskio_task_queue;
+TASKIO_TASK_LIKELY_POINTER find_task(char* name, TASKIO_TASK_LIKELY_POINTER tree); {
+	task_t* n = tree;
 
 	while(n != 0) {
 		if(strcmp(n->name, name)) {
-			return n;
-		}
-		n = n->next;
-	}
-
-	return 0;
-}
-
-internal_task_t* find_internal_task(char* name) {
-	internal_task_t* n = taskio_internaltask_queue;
-
-	while(n != 0) {
-		if(strcmp(n->name, name)) {
-			return n;
+			return (TASKIO_TASK_LIKELY_POINTER)n;
 		}
 		n = n->next;
 	}

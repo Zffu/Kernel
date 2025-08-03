@@ -62,17 +62,9 @@ internal_task_t* create_internal_task(char* name, void (*detach)());
 /**
  * @name find_task
  *
- * Finds a task based on the name of it
+ * Finds a task based on the name of it. It is recomended to use the FINDTASK macros instead.
  *
  * @param name the name of the task
+ * @param tree the tree pointer of the tasks. 
 */
-task_t* find_task(char* name);
-
-/**
- * @name find_internal_task
- *
- * Finds an internal task based on the name of it
- *
- * @param name the name of the internal task
-*/
-internal_task_t* find_internal_task(char* name);
+TASKIO_TASK_LIKELY_POINTER find_task(char* name, TASKIO_TASK_LIKELY_POINTER tree);
