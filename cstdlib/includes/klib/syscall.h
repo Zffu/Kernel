@@ -8,6 +8,12 @@
 #define SYSCALL_ARGBUFF void*
 #define SYSCALL_NOARGS ((void*)0)
 
+#ifndef SYSCALL_MODERN_INSTRUCTION
+#define SYSCALL_INTERRUPT 0x80
+#endif
+
+#define SYSCALL_RESPONSE_SZ ACCEPTED
+
 /**
  * The possible responses from a kernel syscall
  */
@@ -36,7 +42,9 @@ typedef enum syscall_response {
     /**
      * The syscall request was accepted and was executed sucessfully.
     */ */
-    ACCEPTED
+    ACCEPTED,
+
+    UNDEFINED
 } syscall_response;
 
 
