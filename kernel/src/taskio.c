@@ -50,3 +50,29 @@ internal_task_t* create_internal_task(char* name, void (*detach)()) {
 		taskio_internaltask_queue = task;
 	}
 }
+
+task_t* find_task(char* name) {
+	task_t* n = taskio_task_queue;
+
+	while(n != 0) {
+		if(strcmp(n->name, name)) {
+			return n;
+		}
+		n = n->next;
+	}
+
+	return 0;
+}
+
+internal_task_t* find_internal_task(char* name) {
+	internal_task_t* n = taskio_internaltask_queue;
+
+	while(n != 0) {
+		if(strcmp(n->name, name)) {
+			return n;
+		}
+		n = n->next;
+	}
+
+	return 0;
+}

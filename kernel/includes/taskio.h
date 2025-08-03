@@ -10,6 +10,8 @@
 #define TASKIO_PERTASK_STACK_SIZE 256
 #endif
 
+#define TASKIO_TASK_LIKELY_POINTER u8*
+
 /**
  * Defines tasks that are fully 'internal', AKA tasks that do NOT need to be ticked 
  * trough the CPU timer interrupt
