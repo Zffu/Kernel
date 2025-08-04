@@ -4,12 +4,7 @@
 
 #include <taskio/taskio.h>
 
-#include <str.h>
-
 #include <types.h>
-
-extern internal_task_t* taskio_internaltask_queue;
-extern task_t* taskio_task_queue;
 
 syscall_response khandle_syscall(syscall call, SYSCALL_ARGBUFF argbuff) {
     switch(call) {
@@ -28,7 +23,6 @@ syscall_response khandle_syscall(syscall call, SYSCALL_ARGBUFF argbuff) {
 
             if(!port_is_allowed(port)) return DENIED;
 
-            // TODO: check for driver permissions
             break;
         
         case TASK_KILL:
