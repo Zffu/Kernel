@@ -8,12 +8,10 @@ on:
 
 jobs:
   build:
-    runs-on: archlinux-latest
+    runs-on: ubuntu-latest
     steps:    
     - name: Install GCC
-      run: sudo pacman -S gcc
-    - name: Install Nasm
-      run: sudo pacman -S nas
+      run: sudo apt-get install -y g++
     - uses: actions/checkout@v4
     - name: make all
       run: make all
