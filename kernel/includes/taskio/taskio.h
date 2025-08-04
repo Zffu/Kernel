@@ -26,13 +26,11 @@ extern task_t* current_task;
 	TASKIO_TASK_LIKELY_POINTER task = TASKIO_FINDTASK_##type(name); \
 	result = (task != 0) ? taskthis_kill_instant(result, type) : 0x00;
 
-typedef u8 taskio_task_authority 
-
-#define TASK_AUTHORITY_NORMAL 0
-#define TASK_AUTHORITY_INTERNAL 1
-#define TASK_AUTHORITY_DRIVER 2
-#define TASK_AUTHORITY_KERNELSPIN 3
-#define TASK_AUTHORITY_KERNEL 4
+typedef enum task_type {
+	NORMAL,
+	DRIVER,
+	KERNEL_INTEGRATED
+} task_type;
 
 /**
  * Defines tasks that are fully 'internal', AKA tasks that do NOT need to be ticked 
@@ -40,7 +38,7 @@ typedef u8 taskio_task_authority
  */
 typedef struct taskio_task_t__bundled {
 	char* name;
-	taskio_task_authority authority;
+	task_type type;
 
 	struct taskio_task_t__bundled* prev;
 	struct taskio_task_t__bundled* next;
@@ -54,7 +52,7 @@ typedef struct taskio_task_t__bundled {
  */
 typedef struct taskio_task_t {
 	char* name;
-	taskio_task_authority authority;
+	task_type type;
 
 	struct taskio_task_t* prev;
 	struct taskio_task_t* next;
@@ -72,7 +70,7 @@ typedef struct taskio_task_t {
 */
 typedef struct taskio_task_common_t {
 	char* name;
-	taskio_task_authority authority;
+	task_type type;
 
 	struct taskio_task_common_t* prev;
 	struct taskio_task_common_t* next;

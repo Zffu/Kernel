@@ -9,6 +9,8 @@ task_t* create_task(char* name, void (*entry_point)()) {
 	task_t* task = kmallocs(sizeof(task_t), 1);
 	task->stack = kmallocs(TASKIO_PERTASK_STACK_SIZE, 1);
 
+	task->type = NORMAL;
+
 	u32 top = (u32) task->stack + TASKIO_PERTASK_STACK_SIZE;
 
 	#ifdef TASKIO_EMPTY_STACK
@@ -39,6 +41,8 @@ internal_task_t* create_internal_task(char* name, void (*detach)()) {
 
 	task->next = taskio_internaltask_queue;
 	task->detatch = detach;
+
+	task->type = KERNEL_INTEGRATED;
 
 	if(!taskio_internaltask_queue) {
 		taskio_internaltask_queue = task;
