@@ -1,4 +1,4 @@
-#include <taskio.h>
+#include <taskio/taskio.h>
 #include <memalloc.h>
 #include <mem.h>
 
@@ -8,6 +8,8 @@ internal_task_t* taskio_internaltask_queue;
 task_t* create_task(char* name, void (*entry_point)()) {
 	task_t* task = kmallocs(sizeof(task_t), 1);
 	task->stack = kmallocs(TASKIO_PERTASK_STACK_SIZE, 1);
+
+	task->type = NORMAL;
 
 	u32 top = (u32) task->stack + TASKIO_PERTASK_STACK_SIZE;
 
@@ -40,6 +42,8 @@ internal_task_t* create_internal_task(char* name, void (*detach)()) {
 	task->next = taskio_internaltask_queue;
 	task->detatch = detach;
 
+	task->type = KERNEL_INTEGRATED;
+
 	if(!taskio_internaltask_queue) {
 		taskio_internaltask_queue = task;
 		task->next = 0;
@@ -49,4 +53,28 @@ internal_task_t* create_internal_task(char* name, void (*detach)()) {
 		task->next = taskio_internaltask_queue;
 		taskio_internaltask_queue = task;
 	}
+}
+
+TASKIO_TASK_LIKELY_POINTER find_task(char* name, TASKIO_TASK_LIKELY_POINTER tree) {
+	TASKIO_TASK_LIKELY_POINTER n = tree;
+
+	while(n != 0) {
+		if(strcmp(n->name, name)) {
+			return (TASKIO_TASK_LIKELY_POINTER)n;
+		}
+		n = n->next;
+	}
+
+	return 0;
+}
+
+u8 task_kill_instant(TASKIO_TASK_LIKELY_POINTER task, u8 mode) {
+	if(task == 0)  return 0x00;
+
+	if(mode == 0x01) ((internal_task_t*)task)->detatch();
+
+	if(task->prev != 0) task->prev->next = task->next;
+	if(task->next != 0) task->next->prev = task->prev;
+
+	return 0x01;
 }

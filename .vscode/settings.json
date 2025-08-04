@@ -8,6 +8,8 @@
 		"types.h": "c",
 		"pit.h": "c",
 		"stdlib.h": "c",
-		"taskio.h": "c"
+		"taskio.h": "c",
+		"syscall.h": "c",
+		"thread": "c"
 	}
 }
