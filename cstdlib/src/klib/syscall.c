@@ -2,17 +2,17 @@
 #include <types.h>
 
 syscall_response ksyscall(syscall call, SYSCALL_ARGBUFF args) {
-    __asm__("mov %%al, al" : : "a" ((u8) call));
-    __asm__("mov %%eax, ebx" : : "a" (args)); // MUST BE A POINTER
+    __asm__("mov %0, %%al" : : "a" ((u8) call));
+    __asm__("mov %0, %%ebx" : : "b" (args)); // MUST BE A POINTER
 
 #ifdef SYSCALL_MODERN_INSTRUCTION
     __asm__("syscall");
 #else
-    __asm__("int 0x80");
+    __asm__("int $0x80");
 #endif
 
     u8 result;
-    __asm__("mov bl, %%al" : "=a" (result));
+    __asm__("mov %%al, %0" : "=a" (result));
 
     if(result < DENIED || result > SYSCALL_RESPONSE_SZ) {
         return UNDEFINED;

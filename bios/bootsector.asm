@@ -99,7 +99,7 @@ init_pm:
     ; Jump to kernel
     jmp KERNEL_OFFSET
 
-%include "bootsector/gdt.asm"
+%include "bios/gdt.asm"
 
 ; Variables
 BOOT_DRIVE: db 0

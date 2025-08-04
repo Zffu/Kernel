@@ -1,5 +1,5 @@
 #include <klib/syscall.h>
-#include <syscall.h>
+#include <syscall/syscall.h>
 #include <io/ioports.h>
 
 #include <taskio/taskio.h>
@@ -37,7 +37,7 @@ syscall_response khandle_syscall(syscall call, SYSCALL_ARGBUFF argbuff) {
         
         case TASK_KILL:
             if(argbuff == SYSCALL_NOARGS) return INVALID_SYSCALL;
-            u8* ptr = (u8*) argbuff;
+            ptr = (u8*) argbuff;
 
             u8 task_type = *ptr;
             char* task_name = (char*) (ptr + 1);
@@ -52,9 +52,9 @@ syscall_response khandle_syscall(syscall call, SYSCALL_ARGBUFF argbuff) {
 
         case TASK_SPAWN:
             if(argbuff == SYSCALL_NOARGS) return INVALID_SYSCALL;
-            u8* ptr = (u8*) argbuff;
+            ptr = (u8*) argbuff;
 
-            u8 mode = *(ptr);
+            mode = *(ptr);
             u8* point = *((u8**)(ptr + 1));
             char* name = *((char**)(ptr + sizeof(u8*) + 1));
 

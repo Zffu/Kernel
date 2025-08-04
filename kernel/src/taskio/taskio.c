@@ -4,6 +4,7 @@
 
 task_t* taskio_task_queue;
 internal_task_t* taskio_internaltask_queue;
+task_t* current_task;
 
 task_t* create_task(char* name, void (*entry_point)()) {
 	task_t* task = kmallocs(sizeof(task_t), 1);
