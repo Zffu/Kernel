@@ -44,7 +44,7 @@ syscall_response khandle_syscall(syscall call, SYSCALL_ARGBUFF argbuff) {
             //TODO: check permissions of task before using priviledged function
 
             if(task_kill_instant(task_name, task_type) == 0) return ACCEPT_ERR;
-            return ACCEPT;
+            return ACCEPTED;
 
         case TASK_SPAWN:
             if(argbuff == SYSCALL_NOARGS) return INVALID_SYSCALL;
@@ -63,13 +63,13 @@ syscall_response khandle_syscall(syscall call, SYSCALL_ARGBUFF argbuff) {
                 task_t* task = create_task(name, (entry_point_t)(point));
 
                 if(task == 0) return ACCEPT_ERR;
-                return ACCEPT;
+                return ACCEPTED;
             }
 
             internal_task_t* task = create_internal_task(name, (detach_point_t)(point));
 
             if(task == 0) return ACCEPT_ERR;
-            return ACCEPT;
+            return ACCEPTED;
         default:
             return INVALID_SYSCALL;
         

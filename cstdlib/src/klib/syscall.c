@@ -1,7 +1,7 @@
 #include <klib/syscall.h>
 #include <types.h>
 
-syscall_response syscall(syscall call, SYSCALL_ARGBUFF args) {
+syscall_response ksyscall(syscall call, SYSCALL_ARGBUFF args) {
     __asm__("mov %%al, al" : : "a" ((u8) call));
     __asm__("mov %%eax, ebx" : : "a" (args)); // MUST BE A POINTER
 

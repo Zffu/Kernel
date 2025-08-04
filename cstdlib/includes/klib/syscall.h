@@ -28,7 +28,7 @@ typedef enum syscall_response {
      * The issuing process also will be killed as a result.
     */
     DENIED_STRICT,
-*
+
     /**
      * The given syscall is invalid / incomplete
     */
@@ -41,7 +41,7 @@ typedef enum syscall_response {
 
     /**
      * The syscall request was accepted and was executed sucessfully.
-    */ */
+    */ 
     ACCEPTED,
 
     UNDEFINED
@@ -88,4 +88,4 @@ typedef enum syscall {
  * @param args the syscall arguments, should be SYSCALL_NOARGS if no arguments
  * @return a response to your syscall.s
 */
-syscall_response syscall(syscall call, SYSCALL_ARGBUFF args);
+syscall_response ksyscall(syscall call, SYSCALL_ARGBUFF args);
