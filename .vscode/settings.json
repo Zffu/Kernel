@@ -9,6 +9,7 @@
 		"pit.h": "c",
 		"stdlib.h": "c",
 		"taskio.h": "c",
-		"syscall.h": "c"
+		"syscall.h": "c",
+		"thread": "c"
 	}
 }

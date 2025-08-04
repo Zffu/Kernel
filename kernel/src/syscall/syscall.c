@@ -7,6 +7,11 @@
 #include <types.h>
 
 syscall_response khandle_syscall(syscall call, SYSCALL_ARGBUFF argbuff) {
+
+    if(current_task == 0) {
+        return DENIED;
+    }
+
     switch(call) {
         case PRINT:
             return DENIED_STRICT;
@@ -21,6 +26,11 @@ syscall_response khandle_syscall(syscall call, SYSCALL_ARGBUFF argbuff) {
             if(port < 0) return INVALID_SYSCALL;
             if(mode < 0 || mode > 1) return INVALID_SYSCALL;
 
+            if(current_task->type < DRIVER) {
+                task_kill_instant(current_task, 0x00);
+                return DENIED_STRICT;
+            }
+
             if(!port_is_allowed(port)) return DENIED;
 
             break;
@@ -34,8 +44,8 @@ syscall_response khandle_syscall(syscall call, SYSCALL_ARGBUFF argbuff) {
 
             if(task_type < 0 || task_type > 1) return INVALID_SYSCALL;
             if(task_name == 0) return INVALID_SYSCALL;
-
-            //TODO: check permissions of task before using priviledged function
+        
+            //TODO: add a permission check here
 
             if(task_kill_instant(task_name, task_type) == 0) return ACCEPT_ERR;
             return ACCEPTED;
@@ -51,7 +61,7 @@ syscall_response khandle_syscall(syscall call, SYSCALL_ARGBUFF argbuff) {
             if(mode < 0 || mode > 1) return INVALID_SYSCALL;
             if(point == 0 || name == 0) return INVALID_SYSCALL;
 
-            // TODO: make internal tasks require additional permissions
+            if(current_task->type != KERNEL_INTEGRATED) return DENIED;
 
             if(mode == 0x00) {
                 task_t* task = create_task(name, (entry_point_t)(point));

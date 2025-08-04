@@ -12,10 +12,6 @@
 
 #define TASKIO_TASK_LIKELY_POINTER taskio_task_common_t*
 
-extern task_t* taskio_task_queue;
-extern internal_task_t* taskio_internaltask_queue;
-extern task_t* current_task;
-
 #define TASKIO_FINDTASK(name) find_task(name, taskio_task_queue)
 #define TASKIO_FINDINTERNALTASK(name) find_task(name, taskio_internaltask_queue)
 
@@ -115,3 +111,8 @@ TASKIO_TASK_LIKELY_POINTER find_task(char* name, TASKIO_TASK_LIKELY_POINTER tree
  * @return 0x00 if the task couldn't be killed, 0x01 if it was
  */
 u8 task_kill_instant(TASKIO_TASK_LIKELY_POINTER task, u8 mode);
+
+
+extern task_t* taskio_task_queue;
+extern internal_task_t* taskio_internaltask_queue;
+extern task_t* current_task;

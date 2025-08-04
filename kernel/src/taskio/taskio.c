@@ -55,7 +55,7 @@ internal_task_t* create_internal_task(char* name, void (*detach)()) {
 	}
 }
 
-TASKIO_TASK_LIKELY_POINTER find_task(char* name, TASKIO_TASK_LIKELY_POINTER tree); {
+TASKIO_TASK_LIKELY_POINTER find_task(char* name, TASKIO_TASK_LIKELY_POINTER tree) {
 	TASKIO_TASK_LIKELY_POINTER n = tree;
 
 	while(n != 0) {
@@ -71,7 +71,7 @@ TASKIO_TASK_LIKELY_POINTER find_task(char* name, TASKIO_TASK_LIKELY_POINTER tree
 u8 task_kill_instant(TASKIO_TASK_LIKELY_POINTER task, u8 mode) {
 	if(task == 0)  return 0x00;
 
-	if(mode == 0x01) ((internal_task_t*)task)->detach();
+	if(mode == 0x01) ((internal_task_t*)task)->detatch();
 
 	if(task->prev != 0) task->prev->next = task->next;
 	if(task->next != 0) task->next->prev = task->prev;
